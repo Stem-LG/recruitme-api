@@ -11,6 +11,10 @@ public class Application {
     private Date createdDate;
     private boolean isAccepted;
     private String motivation;
+    private String resumeSummary;
+
+    @ManyToOne
+    private Recruiter recruiter;
 
     @ManyToOne
     private Candidate candidate;
@@ -65,5 +69,13 @@ public class Application {
 
     public void setJobOffer(JobOffer jobOffer) {
         this.jobOffer = jobOffer;
+    }
+
+    public String getResumeSummary() {
+        return resumeSummary;
+    }
+
+    public void setResumeSummary(String resumeSummary) {
+        this.resumeSummary = resumeSummary;
     }
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import tn.louay.recruitme.auth.AuthenticationResponse;
 import tn.louay.recruitme.dto.RegisterRequest;
 import tn.louay.recruitme.services.RecruiterService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
