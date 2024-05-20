@@ -1,81 +1,40 @@
 package tn.louay.recruitme.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import tn.louay.recruitme.enums.ApplicationStatus;
+
 import java.util.*;
 
 @Entity
+@Data
 public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Date createdDate;
-    private boolean isAccepted;
+    private Integer id;
+    private String name;
+    private String email;
     private String motivation;
+    @Column(columnDefinition = "TEXT")
     private String resumeSummary;
+    private Date createdAt;
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
 
     @ManyToOne
     private Recruiter recruiter;
 
     @ManyToOne
-    private Candidate candidate;
-
-    @ManyToOne
     private JobOffer jobOffer;
 
-    // getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public boolean isAccepted() {
-        return isAccepted;
-    }
-
-    public void setAccepted(boolean accepted) {
-        isAccepted = accepted;
-    }
-
-    public String getMotivation() {
-        return motivation;
-    }
-
-    public void setMotivation(String motivation) {
+    public Application(String name, String email, String motivation, String resumeSummary,
+            JobOffer jobOffer) {
+        this.name = name;
+        this.email = email;
         this.motivation = motivation;
-    }
-
-    public Candidate getCandidate() {
-        return candidate;
-    }
-
-    public void setCandidate(Candidate candidate) {
-        this.candidate = candidate;
-    }
-
-    public JobOffer getJobOffer() {
-        return jobOffer;
-    }
-
-    public void setJobOffer(JobOffer jobOffer) {
-        this.jobOffer = jobOffer;
-    }
-
-    public String getResumeSummary() {
-        return resumeSummary;
-    }
-
-    public void setResumeSummary(String resumeSummary) {
         this.resumeSummary = resumeSummary;
+        this.createdAt = new Date();
+        this.status = ApplicationStatus.pending;
+        this.jobOffer = jobOffer;
     }
 }

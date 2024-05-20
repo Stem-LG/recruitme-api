@@ -46,7 +46,6 @@ public class RecruiterService implements UserDetailsService {
         var user = Recruiter.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .company(request.getCompany())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ADMIN)
                 .build();
@@ -70,7 +69,7 @@ public class RecruiterService implements UserDetailsService {
         return recruiterRepository.findAll();
     }
 
-    public Recruiter getRecruiterById(Long id) {
+    public Recruiter getRecruiterById(Integer id) {
         return recruiterRepository.findById(id).orElseThrow();
     }
 
@@ -82,7 +81,7 @@ public class RecruiterService implements UserDetailsService {
         return recruiterRepository.save(recruiter);
     }
 
-    public void deleteRecruiter(Long id) {
+    public void deleteRecruiter(Integer id) {
         recruiterRepository.deleteById(id);
     }
 }

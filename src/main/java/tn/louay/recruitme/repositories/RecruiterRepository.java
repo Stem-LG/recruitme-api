@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import tn.louay.recruitme.entities.Recruiter;
 
 @Repository
-public interface RecruiterRepository extends JpaRepository<Recruiter, Long> {
+public interface RecruiterRepository extends JpaRepository<Recruiter, Integer> {
 
     Optional<Recruiter> findByEmail(String email);
 

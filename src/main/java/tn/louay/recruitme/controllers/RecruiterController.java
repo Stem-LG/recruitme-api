@@ -1,48 +1,38 @@
 package tn.louay.recruitme.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tn.louay.recruitme.dto.GetOffers;
+import tn.louay.recruitme.entities.JobOffer;
 import tn.louay.recruitme.entities.Recruiter;
-import tn.louay.recruitme.services.RecruiterService;
+import tn.louay.recruitme.services.JobOfferService;
 
 @RestController
-@RequestMapping("/recruiters")
+@RequestMapping("/recruiter")
 public class RecruiterController {
     @Autowired
-    private RecruiterService recruiterService;
+    private JobOfferService jobOfferService;
 
-    @GetMapping
-    public List<Recruiter> getAllRecruiters() {
-        return recruiterService.getAllRecruiters();
+    @GetMapping("/offers")
+    public List<GetOffers> getRecruiterOffers(@AuthenticationPrincipal Recruiter recruiter) {
+
+        List<JobOffer> jobOffers = jobOfferService.getJobOffersByRecruiter(recruiter);
+
+        List<GetOffers> getOffers = new ArrayList<GetOffers>();
+
+        for (JobOffer jobOffer : jobOffers) {
+            GetOffers getOffer = new GetOffers(jobOffer.getId(), jobOffer.getTitle(), jobOffer.getCreatedAt());
+            getOffers.add(getOffer);
+        }
+
+        return getOffers;
     }
 
-    @GetMapping("/{id}")
-    public Recruiter getRecruiterById(@PathVariable Long id) {
-        return recruiterService.getRecruiterById(id);
-    }
-
-    @PostMapping
-    public Recruiter createRecruiter(@RequestBody Recruiter recruiter) {
-        return recruiterService.createRecruiter(recruiter);
-    }
-
-    @PutMapping("/{id}")
-    public Recruiter updateRecruiter(@PathVariable Long id, @RequestBody Recruiter recruiter) {
-        return recruiterService.updateRecruiter(recruiter);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteRecruiter(@PathVariable Long id) {
-        recruiterService.deleteRecruiter(id);
-    }
 }

@@ -11,15 +11,17 @@ import java.util.*;
 public class JobOfferService {
     @Autowired
     private JobOfferRepository jobOfferRepository;
-    @Autowired
-    private RecruiterService recruiterService;
 
     public List<JobOffer> getAllJobOffers() {
         return jobOfferRepository.findAll();
     }
 
-    public JobOffer getJobOfferById(Long id) {
+    public JobOffer getJobOfferById(Integer id) {
         return jobOfferRepository.findById(id).orElseThrow();
+    }
+
+    public List<JobOffer> getJobOffersByRecruiter(Recruiter recruiter) {
+        return jobOfferRepository.findByRecruiter(recruiter);
     }
 
     public JobOffer createJobOffer(JobOffer jobOffer) {
@@ -30,12 +32,8 @@ public class JobOfferService {
         return jobOfferRepository.save(jobOffer);
     }
 
-    public void deleteJobOffer(Long id) {
+    public void deleteJobOffer(Integer id) {
         jobOfferRepository.deleteById(id);
     }
 
-    public List<JobOffer> getJobOffersByRecruiter(Long recruiterId) {
-        Recruiter recruiter = recruiterService.getRecruiterById(recruiterId);
-        return jobOfferRepository.findByRecruiter(recruiter);
-    }
 }

@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import tn.louay.recruitme.entities.Recruiter;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +20,17 @@ import java.util.function.Function;
 public class JwtService {
     public static final String SECRET_KEY = "0a229f4a98493ed554e356dc468c7e08e267710ae75d564365e5d16c6e5c403c";
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(Recruiter recruiter) {
+        return generateToken(new HashMap<>(), recruiter);
     }
 
     public String generateToken(Map<String, Object> extraClaims,
-            UserDetails userDetails) {
+            Recruiter recruiter) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(recruiter.getUsername())
+                .claim("name", recruiter.getName())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(getSigInKey(), SignatureAlgorithm.HS256)
                 .compact();

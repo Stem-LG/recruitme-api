@@ -3,6 +3,7 @@ package tn.louay.recruitme.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.louay.recruitme.entities.Application;
+import tn.louay.recruitme.entities.JobOffer;
 import tn.louay.recruitme.repositories.ApplicationRepository;
 import java.util.*;
 
@@ -11,11 +12,11 @@ public class ApplicationService {
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    public List<Application> getAllApplications() {
-        return applicationRepository.findAll();
+    public List<Application> getApplicationsByJobOffer(JobOffer jobOffer) {
+        return applicationRepository.findByJobOffer(jobOffer);
     }
 
-    public Application getApplicationById(Long id) {
+    public Application getApplicationById(Integer id) {
         return applicationRepository.findById(id).orElseThrow();
     }
 
@@ -25,9 +26,5 @@ public class ApplicationService {
 
     public Application updateApplication(Application application) {
         return applicationRepository.save(application);
-    }
-
-    public void deleteApplication(Long id) {
-        applicationRepository.deleteById(id);
     }
 }

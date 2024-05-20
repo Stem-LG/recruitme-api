@@ -7,6 +7,7 @@ import tn.louay.recruitme.entities.Recruiter;
 import java.util.*;
 
 @Repository
-public interface JobOfferRepository extends JpaRepository<JobOffer, Long> {
+public interface JobOfferRepository extends JpaRepository<JobOffer, Integer> {
     List<JobOffer> findByRecruiter(Recruiter recruiter);
+
 }

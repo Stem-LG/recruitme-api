@@ -31,46 +31,12 @@ public class Recruiter implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
     private String password;
-    private String company;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
     }
 
     @Override

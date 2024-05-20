@@ -1,69 +1,35 @@
 package tn.louay.recruitme.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.*;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String title;
     private String description;
 
-    @ManyToMany
-    private List<Skill> skills;
+    private String skills;
+
+    private String Company;
+    private Date createdAt;
 
     @ManyToOne
     private Recruiter recruiter;
-    private Date createdDate;
 
-    // getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
+    public JobOffer(String title, String description, String skills, String company, Recruiter recruiter) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
         this.skills = skills;
-    }
-
-    public Recruiter getRecruiter() {
-        return recruiter;
-    }
-
-    public void setRecruiter(Recruiter recruiter) {
+        this.Company = company;
         this.recruiter = recruiter;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdAt = new Date();
     }
 }

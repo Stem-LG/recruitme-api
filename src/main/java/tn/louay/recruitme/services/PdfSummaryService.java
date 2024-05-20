@@ -7,6 +7,11 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import kong.unirest.core.ContentType;
 import kong.unirest.core.Unirest;
 
@@ -36,7 +41,13 @@ public class PdfSummaryService {
                         "role": "system",
                         "content": "you are a resume summarizer, the user will request summarizing a
                         text extracted from a pdf resume and your job is to summarize and extract
-                        importnant info from it. Make sure to not use any text formatting and reply directly only with the summary, dont say here's your summary or anything of that kind, just replay with the summary."
+                        importnant info from it.
+                        Make sure to not use any text formatting.
+                        and don't begin by 'Here is the summarized information:' or similar phrases.
+                        just directly begin with the details.
+
+                        these contain: name, contact, experience, education, skills, spoken languages and any other relevant info.
+                        "
                         },
                         {
                         "role": "user",
@@ -59,6 +70,31 @@ public class PdfSummaryService {
                 .body(query)
                 .asString()
                 .getBody();
+
+        Gson gson = new Gson();
+
+        JsonObject jsonObject = gson.fromJson(res, JsonObject.class);
+
+        // Get the "choices" array
+        JsonElement choicesElement = jsonObject.get("choices");
+        if (choicesElement != null && choicesElement.isJsonArray()) {
+            JsonElement choiceElement = choicesElement.getAsJsonArray().get(0);
+            if (choiceElement != null && choiceElement.isJsonObject()) {
+                JsonObject choiceObject = choiceElement.getAsJsonObject();
+
+                // Get the "message" object
+                JsonElement messageElement = choiceObject.get("message");
+                if (messageElement != null && messageElement.isJsonObject()) {
+                    JsonObject messageObject = messageElement.getAsJsonObject();
+
+                    // Get the "content" value
+                    JsonElement contentElement = messageObject.get("content");
+                    if (contentElement != null && contentElement.isJsonPrimitive()) {
+                        res = contentElement.getAsString();
+                    }
+                }
+            }
+        }
 
         return res;
     }
