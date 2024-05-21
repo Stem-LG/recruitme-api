@@ -1,5 +1,6 @@
 package tn.louay.recruitme.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +13,6 @@ import tn.louay.recruitme.dto.GetApplication;
 import tn.louay.recruitme.dto.PutApplication;
 import tn.louay.recruitme.entities.Application;
 import tn.louay.recruitme.entities.Recruiter;
-import tn.louay.recruitme.enums.ApplicationAction;
 import tn.louay.recruitme.enums.ApplicationStatus;
 import tn.louay.recruitme.services.ApplicationService;
 
@@ -20,6 +20,7 @@ import tn.louay.recruitme.services.ApplicationService;
 @RequestMapping("/applications/{id}")
 public class ApplicationsController {
 
+    @Autowired
     ApplicationService applicationService;
 
     @GetMapping
@@ -45,9 +46,9 @@ public class ApplicationsController {
 
     }
 
-    @PutMapping
-    public void updateApplication(@PathVariable Integer id, @AuthenticationPrincipal Recruiter recruiter,
-            @ModelAttribute PutApplication action) {
+    @PutMapping("/{action}")
+    public void updateApplication(@PathVariable Integer id, @PathVariable String action,
+            @AuthenticationPrincipal Recruiter recruiter) {
 
         Application application = applicationService.getApplicationById(id);
 
@@ -55,10 +56,12 @@ public class ApplicationsController {
             return;
         }
 
-        if (action.getAction() == ApplicationAction.accept) {
+        if (action.equals("accept")) {
             application.setStatus(ApplicationStatus.accepted);
-        } else {
+        } else if (action.equals("reject")) {
             application.setStatus(ApplicationStatus.rejected);
+        } else {
+            return;
         }
 
         applicationService.updateApplication(application);

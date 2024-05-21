@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import tn.louay.recruitme.auth.AuthenticationResponse;
 import tn.louay.recruitme.config.jwt.JwtService;
+import tn.louay.recruitme.dto.LoginRequest;
 import tn.louay.recruitme.dto.RegisterRequest;
 import tn.louay.recruitme.entities.Recruiter;
 import tn.louay.recruitme.entities.Role;
@@ -55,7 +56,7 @@ public class RecruiterService implements UserDetailsService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public AuthenticationResponse authenticate(RegisterRequest request) {
+    public AuthenticationResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

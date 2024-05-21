@@ -2,6 +2,7 @@ package tn.louay.recruitme.controllers;
 
 import lombok.RequiredArgsConstructor;
 import tn.louay.recruitme.auth.AuthenticationResponse;
+import tn.louay.recruitme.dto.LoginRequest;
 import tn.louay.recruitme.dto.RegisterRequest;
 import tn.louay.recruitme.services.RecruiterService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(userService.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody LoginRequest request) {
+
+        System.out.println(request);
+
+        AuthenticationResponse response = userService.authenticate(request);
+
+        System.out.println(response);
+
+        return ResponseEntity.ok(response);
     }
 
 }
