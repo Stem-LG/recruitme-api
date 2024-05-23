@@ -3,14 +3,12 @@ package tn.louay.recruitme.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.louay.recruitme.dto.GetApplication;
-import tn.louay.recruitme.dto.PutApplication;
 import tn.louay.recruitme.entities.Application;
 import tn.louay.recruitme.entities.Recruiter;
 import tn.louay.recruitme.enums.ApplicationStatus;
